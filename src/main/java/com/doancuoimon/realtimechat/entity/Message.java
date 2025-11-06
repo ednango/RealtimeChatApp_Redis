@@ -11,9 +11,10 @@ package com.doancuoimon.realtimechat.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Nationalized;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -21,7 +22,6 @@ import java.util.Date;
 @Table(name = "MESSAGE")
 public class Message {
     @Id
-    @Nationalized
     @Column(name = "ID_MESSAGE", nullable = false, length = 100)
     private String idMessage;
 
@@ -29,9 +29,7 @@ public class Message {
     @JoinColumn(name = "ID_CHATROOM")
     private Chatroom idChatroom;
 
-    @Nationalized
-    @Lob
-    @Column(name = "NOIDUNGTN")
+    @Column(name = "NOIDUNGTN", columnDefinition = "TEXT")
     private String noidungtn;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -40,5 +38,8 @@ public class Message {
 
     @Column(name = "THOIGIANGUI")
     private Date thoigiangui;
+
+    @OneToMany(mappedBy = "idMessage", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Attachment> attachments = new ArrayList<>();
 
 }

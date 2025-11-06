@@ -18,28 +18,28 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
-@Table(name = "CHATROOM_MEMBER", schema = "dbo")
+@Table(name = "CHATROOM_MEMBER")
 public class ChatroomMember {
     @EmbeddedId
     private ChatroomMemberId id;
 
     @MapsId("idChatroom")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "ID_CHATROOM", nullable = false, referencedColumnName = "ID_CHATROOM")
+    @JoinColumn(name = "ID_CHATROOM", nullable = false)
     @JsonIgnore
     private Chatroom idChatroom;
-
-    @Column(name = "NGAYTHAMGIA")
-    private Instant ngaythamgia;
-
-    @Column(name = "NGAYROIDI")
-    private Instant ngayroidi;
 
     @MapsId("idNguoinhan")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ID_NGUOINHAN", nullable = false)
     @JsonIgnore
     private User idNguoinhan;
+
+    @Column(name = "NGAYTHAMGIA")
+    private Instant ngaythamgia;
+
+    @Column(name = "NGAYROIDI")
+    private Instant ngayroidi;
 
     public ChatroomMember() {}
 

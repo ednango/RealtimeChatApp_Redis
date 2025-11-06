@@ -8,13 +8,12 @@ package com.doancuoimon.realtimechat.entity;
  *
  * @author ADMIN
  */
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Nationalized;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -22,12 +21,13 @@ import org.hibernate.annotations.Nationalized;
 @Table(name = "MAUNEN")
 public class BackgroundColor {
     @Id
-    @Nationalized
     @Column(name = "ID_MAUNEN", nullable = false, length = 20)
     private String idMaunen;
 
-    @Nationalized
     @Column(name = "TENMAUNEN", length = 200)
     private String tenmaunen;
+
+    @OneToMany(mappedBy = "idChude")
+    private List<Chatroom> chatrooms = new ArrayList<>();
 }
 

@@ -3,7 +3,6 @@ package com.doancuoimon.realtimechat.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Nationalized;
 
 import java.time.Instant;
 
@@ -21,11 +20,9 @@ public class Attachment {
     @JoinColumn(name = "ID_MESSAGE")
     private Message idMessage;
 
-    @Nationalized
     @Column(name = "FILE_URL", length = 200)
     private String fileUrl;
 
-    @Nationalized
     @Column(name = "IMG_URL", length = 200)
     private String imgUrl;
 

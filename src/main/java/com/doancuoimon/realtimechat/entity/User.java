@@ -11,7 +11,6 @@ package com.doancuoimon.realtimechat.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Nationalized;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -24,23 +23,15 @@ import java.util.Set;
 @Table(name = "USERS")
 public class User {
     @Id
-    @Nationalized
     @Column(name = "USERID", nullable = false, length = 20)
     private String userid;
 
-    @Nationalized
-    @Column(name = "USERNAME", length = 100)
+    @Column(name = "USERNAME", unique = true, nullable = false, length = 100)
     private String username;
 
-    @Nationalized
-    @Column(name = "PASSWORD", nullable = false)
+    @Column(name = "PASSWORD", nullable = false, length = 255)
     private String password;
 
-    @Nationalized
-    @Column(name = "STATUS", length = 100)
-    private int status;
-
-    @Nationalized
     @Column(name = "NICKNAME", length = 300)
     private String nickname;
 
@@ -49,5 +40,8 @@ public class User {
 
     @OneToMany(mappedBy = "nguoigui")
     private Set<Message> messages = new LinkedHashSet<>();
+
+    @ManyToMany(mappedBy = "chatroomMembers")
+    private List<Chatroom> chatrooms = new ArrayList<>();
 
 }

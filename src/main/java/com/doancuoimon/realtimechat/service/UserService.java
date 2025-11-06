@@ -50,7 +50,6 @@ public class UserService implements UserDetailsService {
 
                 user.setPassword(passwordEncoder.encode(request.getPassword()));
                 user.setNickname(request.getNickname());
-                user.setStatus(1);
                 return userRepository.save(user);
             }
             else
@@ -61,16 +60,12 @@ public class UserService implements UserDetailsService {
 
     public User connected(String id) {
         User user = getUser(id);
-
-        user.setStatus(1);
-        return userRepository.save(user);
+        return user;
     }
 
     public User disconnected(String id) {
         User user = getUser(id);
-
-        user.setStatus(2);
-        return userRepository.save(user);
+        return user;
     }
 
     public User getUser(String id) {
@@ -78,7 +73,7 @@ public class UserService implements UserDetailsService {
     } // Tìm một User theo id
 
     public List<User> getConnectedUsers() {
-        return userRepository.findAllByStatus(1);
+        return userRepository.findAll();
     }// Lấy ra các user có trạng thái là đang hoạt động
 
     public List<User> getUserByUserids(List<String> userids) {
