@@ -12,6 +12,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -21,7 +22,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "USERS")
-public class User {
+public class User implements Serializable {
     @Id
     @Column(name = "USERID", nullable = false, length = 20)
     private String userid;

@@ -20,6 +20,8 @@ import io.micrometer.common.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -34,6 +36,7 @@ public class ChatRoomService {
     @Autowired
     private UserService userService;
 
+    @CacheEvict(value = "chatrooms", key = "#result.idChatroom")
     public Chatroom createChatroom(ChatroomCreationRequest request) {
         Chatroom chatroom = new Chatroom();
 
@@ -55,10 +58,12 @@ public class ChatRoomService {
         return chatroomRepository.save(chatroom);
     }
 
+    @Cacheable(value = "chatrooms", key = "#chatId")
     public Chatroom getChatroom(String chatId) {
         return chatroomRepository.findById(chatId.trim()).orElse(null);
     }
 
+    @Cacheable(value = "chatrooms", key = "'members_' + #chatId")
     public List<User> getChatroomMembers(String chatId) {
         Chatroom c = getChatroom(chatId);
         if (c == null) {

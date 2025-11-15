@@ -19,6 +19,8 @@ import com.doancuoimon.realtimechat.repository.AttachmentRepository;
 import com.doancuoimon.realtimechat.repository.ChatroomRepository;
 import com.doancuoimon.realtimechat.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -39,6 +41,7 @@ public class MessageService {
     @Autowired
     private AttachmentRepository attachmentRepository;
 
+    @CacheEvict(value = "messages", key = "#messageCreationRequest.idChatroom")
     public Message saveMessage(
             MessageCreationRequest messageCreationRequest,
             User nguoiGui
@@ -65,6 +68,7 @@ public class MessageService {
         return savedMessage;
     }
 
+    @Cacheable(value = "messages", key = "#chatId")
     public List<Message> findChatMessages(String chatId) throws Exception {
         Chatroom chatroom = chatRoomService.getChatroom(chatId);
         if(chatroom == null){

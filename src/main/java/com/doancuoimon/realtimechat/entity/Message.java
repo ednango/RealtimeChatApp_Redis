@@ -12,6 +12,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,7 +21,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "MESSAGE")
-public class Message {
+public class Message implements Serializable {
     @Id
     @Column(name = "ID_MESSAGE", nullable = false, length = 100)
     private String idMessage;
