@@ -41,7 +41,6 @@ public class MessageService {
     @Autowired
     private AttachmentRepository attachmentRepository;
 
-    @CacheEvict(value = "messages", key = "#messageCreationRequest.idChatroom")
     public Message saveMessage(
             MessageCreationRequest messageCreationRequest,
             User nguoiGui
@@ -68,7 +67,6 @@ public class MessageService {
         return savedMessage;
     }
 
-    @Cacheable(value = "messages", key = "#chatId")
     public List<Message> findChatMessages(String chatId) throws Exception {
         Chatroom chatroom = chatRoomService.getChatroom(chatId);
         if(chatroom == null){
