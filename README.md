@@ -2,9 +2,6 @@
 
 ### Microsoft SQL Server container running command
 ```sh
-docker run -e 'ACCEPT_EULA=Y' \
-  -e 'SA_PASSWORD=YourStrong!Passw0rd' \
-  -p 1433:1433 \
-  --name chat-realtime-mssql \
-  -d mcr.microsoft.com/mssql/server:2025-latest
+ docker run -d --name chatapp-postgres -e POSTGRES_PASSWORD=123 -e TZ=UTC -e 
+PGTZ=UTC -p 5432:5432 postgres:16
 ```
