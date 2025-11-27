@@ -44,6 +44,12 @@ public class RedisConfig {
                                 .disableCachingNullValues(),
                         "messages", RedisCacheConfiguration.defaultCacheConfig()
                                 .entryTtl(Duration.ofMinutes(5))
+                                .disableCachingNullValues(),
+                        "users", RedisCacheConfiguration.defaultCacheConfig()
+                                .entryTtl(Duration.ofMinutes(10))
+                                .disableCachingNullValues(),
+                        "chatroomSearch", RedisCacheConfiguration.defaultCacheConfig()
+                                .entryTtl(Duration.ofMinutes(20))
                                 .disableCachingNullValues()
                 ))
                 .build();

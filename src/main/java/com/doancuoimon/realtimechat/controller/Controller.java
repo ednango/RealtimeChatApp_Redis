@@ -46,6 +46,8 @@ import java.util.List;
 import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.CacheEvict;
 
 @Slf4j
 @RestController
@@ -77,6 +79,7 @@ public class Controller {
     }
 
     @GetMapping("/users")
+    @Cacheable(value = "users", key = "#authentication.name")
     public List<UserResponse> getConnectedUsers(Authentication authentication) {
         UserDetailsImpl userContext = (UserDetailsImpl) userService.loadUserByUsername(authentication.getName());
         User authUser = userContext.user();
@@ -104,6 +107,7 @@ public class Controller {
 
     // region MessageController
     @GetMapping("/messages/{chatID}")
+    @Cacheable(value = "messages", key = "#chatId")
     public List<MessageRespone> getListMessages(
             @PathVariable("chatID") String chatId) throws Exception {
         List<Message> lst = messageService.findChatMessages(chatId);
@@ -117,6 +121,7 @@ public class Controller {
 
     @MessageMapping("/chat")
     @Transactional
+    @CacheEvict(value = "messages", key = "#message.idChatroom")
     public void processMessage(
             @Payload MessageCreationRequest message,
             Authentication authentication) {
@@ -134,6 +139,7 @@ public class Controller {
 
     // region Chatroom Controller
     @GetMapping("chatroom")
+    @Cacheable(value = "chatrooms", key = "#authentication.name")
     public List<ChatroomResponse> getChatrooms(Authentication authentication) {
         String username = authentication.getName();
         User currentUser = userService.getUserFromUserDetails(userService.loadUserByUsername(username));
@@ -143,6 +149,7 @@ public class Controller {
     }
 
     @PostMapping("/chatroom")
+    @CacheEvict(value = "chatrooms", allEntries = true)
     public Chatroom addChatroom(@RequestBody ChatroomCreationRequest chatroomCreationRequest) {
         return chatRoomService.createChatroom(chatroomCreationRequest);
     }
@@ -163,6 +170,7 @@ public class Controller {
     }
 
     @GetMapping("/chatroom/search/{tenchatroom}")
+    @Cacheable(value = "chatroomSearch", key = "#tenchatroom")
     public List<ChatroomResponse> searchUsers(@PathVariable("tenchatroom") String tenchatroom) {
         List<Chatroom> lst = chatRoomService.findChatroomByTenchatroom(tenchatroom);
         List<ChatroomResponse> kq = new ArrayList<>();
