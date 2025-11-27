@@ -2,6 +2,7 @@ package com.doancuoimon.realtimechat.dto.response;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.io.Serializable;
 
 import com.doancuoimon.realtimechat.entity.Chatroom;
 import com.doancuoimon.realtimechat.entity.Message;
@@ -15,7 +16,7 @@ public record ChatroomResponse(
     List<String> chatroomMemberIds,
     @JsonIgnore
     Message latestMessage
-) { 
+) implements Serializable { 
     public static ChatroomResponse toDto(Chatroom entity, Message latestMessage) {
         return new ChatroomResponse(
             entity.getIdChatroom(),

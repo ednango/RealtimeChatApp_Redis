@@ -30,6 +30,7 @@ public class AuthController {
     @GetMapping("/api/session")
     public UserResponse getSession(Authentication authentication) {
         return UserResponse
-                .toDto(userService.getUserFromUserDetails(userService.loadUserByUsername(authentication.getName())));
+                .toDto(userService.getUserFromUserDetails(
+                    userService.loadUserByUsername(authentication.getName())));
     }
 }
